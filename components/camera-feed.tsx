@@ -64,6 +64,11 @@ export function CameraFeed({
     if (!context) return
 
     const detectFrame = () => {
+      if (videoRef.current!.readyState !== HTMLMediaElement.HAVE_ENOUGH_DATA) {
+        requestAnimationFrame(detectFrame)
+        return
+      }
+      
       context.drawImage(videoRef.current!, 0, 0, canvas.width, canvas.height)
 
       // Motion detection
@@ -137,7 +142,7 @@ export function CameraFeed({
     }
 
     detectFrame()
-  }, [isRunning, onMotionDetected, onObjectDetected, onActivityDetected, onFaceDetected])
+  }, [isRunning])
 
   if (error) {
     return (
