@@ -21,6 +21,7 @@ interface MissingPersonProfileProps {
 
 export function MissingPersonProfile({ person, detectionStatus, matchConfidence = 0 }: MissingPersonProfileProps) {
   const [uploadedImage, setUploadedImage] = useState<string>("")
+  const [personName, setPersonName] = useState<string>(person.name)
 
   const getStatusColor = () => {
     switch (detectionStatus) {
@@ -47,10 +48,22 @@ export function MissingPersonProfile({ person, detectionStatus, matchConfidence 
   return (
     <div className={`border-l-4 rounded-lg p-6 ${getStatusColor()}`}>
       <div className="space-y-4">
+        {/* Name Input Section */}
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-gray-400">Missing Person Name</label>
+          <input
+            type="text"
+            value={personName}
+            onChange={(e) => setPersonName(e.target.value)}
+            placeholder="Enter person's name"
+            className="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+          />
+        </div>
+
         {/* Header */}
         <div className="flex justify-between items-start">
           <div>
-            <h3 className="text-lg font-mono font-semibold text-gray-100">{person.name}</h3>
+            <h3 className="text-lg font-mono font-semibold text-gray-100">{personName || person.name}</h3>
             <p className="text-xs text-gray-400 mt-1">ID: {person.id}</p>
           </div>
           <div className="px-3 py-1 rounded bg-gray-700 border border-gray-600">
